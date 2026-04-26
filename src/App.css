@@ -1,0 +1,54 @@
+/* src/App.css */
+/* Shell layout — keeps navbar at top, footer at bottom, main fills remaining height */
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+}
+
+/* ── Decorative Background Blobs ────────────────────── */
+.bg-blob {
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  animation: morphing-blob 12s ease-in-out infinite alternate;
+}
+
+.blob-top-left {
+  top: -200px;
+  left: -200px;
+  width: 550px;
+  height: 550px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  opacity: 0.6;
+}
+
+.blob-bottom-right {
+  bottom: -200px;
+  right: -200px;
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, var(--accent), #e09214);
+  opacity: 0.6;
+  animation-delay: -6s;
+}
+
+@keyframes morphing-blob {
+  0% {
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+    transform: rotate(45deg) scale(1.05);
+  }
+  100% {
+    border-radius: 30% 70% 40% 60% / 60% 40% 50% 40%;
+    transform: rotate(90deg) scale(0.95);
+  }
+}

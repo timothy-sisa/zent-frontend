@@ -1,0 +1,132 @@
+/* src/index.css */
+/* Global styles — reset, fonts, and base variables as defined in the Assignment 1 proposal */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap');
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colours from Assignment 1 colour specification */
+  --primary:      #1E6FD9; /* Primary blue — trust, reliability, focus */
+  --primary-dark: #1558b0; /* Darker shade for hover states */
+  --accent:       #F5A623; /* Amber — call-to-action elements and star ratings */
+  --bg:           #F5F6FA; /* Light grey background — reduces eye strain */
+  --white:        #FFFFFF; /* Card surfaces */
+  --text:         #2C2C2C; /* Dark grey body text — avoids harshness of pure black */
+  --text-light:   #6b7280; /* Secondary text */
+  --border:       #e5e7eb; /* Subtle borders */
+  --error:        #dc2626;
+  --success:      #16a34a;
+  --card-shadow:  0 2px 8px rgba(0,0,0,0.08);
+  --radius:       8px;
+}
+
+/* Base — Inter as primary font, Roboto and sans-serif as fallbacks per Assignment 1 */
+body {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+input, textarea, select {
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+/* Shared form primitives used across auth, upload, and other form pages */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.1rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.6rem 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--white);
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.input-error {
+  border-color: var(--error) !important;
+}
+
+.field-error {
+  font-size: 0.8rem;
+  color: var(--error);
+}
+
+.error-banner {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: var(--error);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.success-banner {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: var(--success);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.status-msg {
+  text-align: center;
+  color: var(--text-light);
+  padding: 3rem 0;
+  font-size: 0.95rem;
+}
+
+.status-msg.error {
+  color: var(--error);
+}
