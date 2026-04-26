@@ -1,0 +1,117 @@
+/* src/pages/UploadPage.css */
+
+.upload-page {
+  min-height: calc(100vh - 68px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 4rem 1.5rem 6rem;
+}
+
+.upload-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2.75rem 2.5rem;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: var(--card-shadow);
+  animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.upload-card::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--primary);
+  margin-bottom: 2rem;
+  border-radius: 1px;
+}
+
+.upload-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35rem;
+}
+
+.upload-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+
+.upload-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* File drop zone ────────────────────── */
+.file-drop {
+  background: var(--bg);
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+
+.file-drop:hover {
+  border-color: var(--primary);
+  background: var(--bg);
+}
+
+.file-drop input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.file-hint {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  pointer-events: none;
+}
+
+.file-drop.input-error {
+  border-color: var(--error);
+  background: #fef2f2;
+}
+
+/* Submit ─────────────────────────────── */
+.btn-submit {
+  width: 100%;
+  background: var(--accent);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+  transition: background 0.2s, box-shadow 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.btn-submit:hover:not(:disabled) {
+  background: var(--accent);
+  filter: brightness(1.1);
+  box-shadow: var(--card-shadow);
+}
+.btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+@media (max-width: 480px) {
+  .upload-card { padding: 2rem 1.5rem; }
+}
