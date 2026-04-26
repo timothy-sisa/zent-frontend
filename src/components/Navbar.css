@@ -1,0 +1,137 @@
+/* src/components/Navbar.css */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Brand ─────────────────────────────── */
+.navbar-brand {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--primary);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.navbar-brand:hover { color: var(--primary-dark); }
+
+/* Links ─────────────────────────────── */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-links a {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s;
+  padding-bottom: 2px;
+}
+
+.navbar-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--primary);
+  transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navbar-links a:hover {
+  color: var(--text);
+}
+.navbar-links a:hover::after { width: 100%; }
+
+.navbar-username {
+  color: var(--primary) !important;
+  font-weight: 600 !important;
+}
+.navbar-username:hover { color: var(--primary-dark) !important; }
+
+/* Buttons ───────────────────────────── */
+.btn-register {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+  padding: 0.45rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background 0.2s, box-shadow 0.2s !important;
+}
+.btn-register::after { display: none !important; }
+.btn-register:hover {
+  background: var(--primary-dark) !important;
+  box-shadow: var(--card-shadow)!important;
+  text-decoration: none !important;
+}
+
+.btn-upload {
+  background: var(--accent) !important;
+  color: var(--white) !important;
+  padding: 0.45rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background 0.2s, box-shadow 0.2s, filter 0.2s !important;
+}
+.btn-upload::after { display: none !important; }
+.btn-upload:hover {
+  filter: brightness(1.1) !important;
+  box-shadow: var(--card-shadow)!important;
+  text-decoration: none !important;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 0.42rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-logout:hover {
+  border-color: var(--border);
+  color: var(--text-light);
+}
+
+/* Responsive ────────────────────────── */
+@media (max-width: 640px) {
+  .navbar-inner { padding: 0 1.25rem; }
+  .navbar-links { gap: 1.2rem; }
+  .navbar-links a { font-size: 0.75rem; }
+  .navbar-brand { font-size: 1.6rem; }
+}
