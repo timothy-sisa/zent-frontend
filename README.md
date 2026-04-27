@@ -1,68 +1,85 @@
-# ZENT - Centralized Academic Resource Platform
+# ZENT – Centralized Academic Resource Platform
 
-**Live Deployment URL:** [https://zent-frontend.onrender.com](https://zent-frontend.onrender.com)  
-*(Note: Since this is the frontend-only milestone, API requests are mocked locally and will not persist data.)*
+### Web Technologies – Assignment 3: Client-side Components
 
-## Overview
-ZENT is a Centralized Academic Resource Platform designed to allow students and lecturers to easily share, discover, and discuss academic materials like lecture notes, past papers, and study guides. 
-
-This repository contains the source code for the **Assignment 3 Frontend UI Milestone**, built with React.js. It features a complete implementation of the "Academic Light" UI proposed in Assignment 1, consisting of 6 fully interactive pages with client-side validation, mock API interactions, and responsive design.
+**Authors:** Timothy Sisa (3142650) · Alazar Kidane (3136216) · Adarsh Pandit (3134329) **Module:** Web Technologies · Semester 2 · Griffith College Dublin **Deployed URL:** `https://zent-frontend.onrender.com`
 
 ---
 
-## Division of Labour & Contributions
+## What This Is
 
-**Work was evenly divided** among all team members (approx. 33.3% each). Below is a breakdown of the specific components, files, and functionalities handled by each member during this iteration, which accurately reflects our commit history.
-
-### Timothy Sisa
-*timothy@student.griffith.ie*
-- **Role:** Project setup, Global Styling, Layout Shell, Landing Page
-- **Contributions:**
-  - Initialized the React project structure with Vite.
-  - Set up global design tokens (`index.css`) matching the "Academic Light" proposal.
-  - Built the `Navbar` and `Footer` layout shell.
-  - Implemented the `AuthContext` for global session state and `ProtectedRoute` routing wrappers.
-  - Developed the animated, responsive `LandingPage` with decorative blobs.
-- **Authored Files:**
-  - `src/App.css`, `src/index.css`
-  - `src/context/AuthContext.jsx`
-  - `src/components/ProtectedRoute.jsx`, `Navbar.jsx`, `Footer.jsx` (and associated CSS)
-  - `src/pages/LandingPage.jsx`, `LandingPage.css`
-
-### Alazar Kidane
-*alazar@student.griffith.ie*
-- **Role:** Authentication Flow, Resource Catalog, Detail Views
-- **Contributions:**
-  - Built the `RegisterPage` and `LoginPage` with comprehensive client-side form validation (email format, password matching, length checks).
-  - Developed the `BrowsePage` featuring live client-side search, filtering (by category), and sorting functionality.
-  - Created the shared `ResourceCard` component.
-  - Developed the `ResourceDetailPage`, implementing the star-rating UI and the interactive comment CRUD system.
-- **Authored Files:**
-  - `src/pages/RegisterPage.jsx`, `LoginPage.jsx`, `AuthPage.css`
-  - `src/pages/BrowsePage.jsx`, `BrowsePage.css`
-  - `src/components/ResourceCard.jsx`, `ResourceCard.css`
-  - `src/pages/ResourceDetailPage.jsx`, `ResourceDetailPage.css`
-
-### Adarsh Pandit
-*adarsh@student.griffith.ie*
-- **Role:** Data Entry/Uploads, Routing Architecture, Deployment
-- **Contributions:**
-  - Built the `UploadPage` encompassing complex file validations (type and size checking) for multipart/form-data.
-  - Designed the robust drag-and-drop file upload UI.
-  - Wired up all application routes inside `App.jsx`, ensuring `ProtectedRoute` barriers worked correctly.
-  - Designed and implemented the fallback `NotFoundPage` (404) and generic UI fallback components (`ErrorBanner`, `LoadingSpinner`).
-  - Handled the CI/CD deployment of the frontend to Render.com.
-- **Authored Files:**
-  - `src/App.jsx`
-  - `src/pages/UploadPage.jsx`, `UploadPage.css`
-  - `src/pages/NotFoundPage.jsx`, `NotFoundPage.css`
-  - `src/components/ErrorBanner.jsx`, `LoadingSpinner.jsx`
-  - `README.md` documentation
+ZENT is the React.js frontend for a student-driven academic resource sharing platform. It provides six fully interactive pages allowing users to browse resources, register and log in, upload academic materials, view resource details, rate and comment on resources. All data interactions are mocked client-side in this iteration — no HTTP requests are made to the backend API, but every element clearly maps to a backend endpoint for the next integration stage.
 
 ---
 
-## References & Third-Party Resources
-- Icons provided by [Lucide React](https://lucide.dev/).
-- Fonts (`Inter` and `Roboto`) served via [Google Fonts](https://fonts.google.com/).
-- Deployment hosted via [Render](https://render.com/).
-- React Router documentation used for SPA navigation.
+## Pages
+
+PageRouteDescriptionLanding`/`Platform introduction with call-to-action buttonsRegister`/register`Account creation form with client-side validationLogin`/login`Login form with error handlingBrowse`/resources`Search, filter by type, and sort the resource libraryResource Detail`/resources/:id`Full resource info, star rating, and commentsUpload`/upload`File upload form with type and size validation (protected)
+
+---
+
+## How to Run
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+The app will be available at `http://localhost:5173`.
+
+---
+
+## Division of Labour
+
+### Timothy Sisa (3142650) — 33%
+
+| Task | Files |
+|---|---|
+| Project initialisation and Vite setup | `package.json`, `vite.config.js` |
+| Global design tokens and CSS reset matching Assignment 1 colour spec | `src/index.css`, `src/App.css` |
+| Auth context providing global user state | `src/context/AuthContext.jsx` |
+| ProtectedRoute component redirecting unauthenticated users | `src/components/ProtectedRoute.jsx` |
+| Navbar with auth-aware links and logout | `src/components/Navbar.jsx`, `Navbar.css` |
+| Footer | `src/components/Footer.jsx`, `Footer.css` |
+| Landing page with hero, features, and how-it-works sections | `src/pages/LandingPage.jsx`, `LandingPage.css` |
+
+---
+
+### Alazar Kidane (3136216) — 33%
+
+| Task | Files |
+|---|---|
+| Register page with full client-side validation | `src/pages/RegisterPage.jsx` |
+| Login page with error state handling | `src/pages/LoginPage.jsx` |
+| Shared auth page styles | `src/pages/AuthPage.css` |
+| Browse page with live search, type filter, and sort | `src/pages/BrowsePage.jsx`, `BrowsePage.css` |
+| Reusable resource card component | `src/components/ResourceCard.jsx`, `ResourceCard.css` |
+| Resource detail page with star rating and comment CRUD | `src/pages/ResourceDetailPage.jsx`, `ResourceDetailPage.css` |
+| Deployment to Render | — |
+
+---
+
+### Adarsh Pandit (3134329) — 34%
+
+| Task | Files |
+|---|---|
+| Upload page with file type and size validation | `src/pages/UploadPage.jsx`, `UploadPage.css` |
+| 404 Not Found page | `src/pages/NotFoundPage.jsx`, `NotFoundPage.css` |
+| App.jsx — all routes wired with ProtectedRoute | `src/App.jsx` |
+| Dashboard page with user profile, uploads, and favourites | `src/pages/DashboardPage.jsx`, `DashboardPage.css` |
+| ErrorBanner and LoadingSpinner utility components | `src/components/ErrorBanner.jsx`, `LoadingSpinner.jsx` |
+| README documentation | `README.md` |
+
+---
+
+## References
+
+- React.js: <https://react.dev/>
+- React Router: <https://reactrouter.com/>
+- Vite: <https://vitejs.dev/>
+- Google Fonts (Inter, Roboto): <https://fonts.google.com/>
+- Render deployment: <https://render.com/docs/deploy-a-static-site>
+- Assignment 1 colour and font specification: project proposal document

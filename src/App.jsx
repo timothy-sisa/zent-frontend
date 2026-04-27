@@ -15,6 +15,7 @@ import RegisterPage from './pages/RegisterPage';
 import BrowsePage from './pages/BrowsePage';
 import ResourceDetailPage from './pages/ResourceDetailPage';
 import UploadPage from './pages/UploadPage';
+import DashboardPage from './pages/DashboardPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 import './App.css';
@@ -42,6 +43,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <UploadPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <DashboardPage />
                   </ProtectedRoute>
                 }
               />
