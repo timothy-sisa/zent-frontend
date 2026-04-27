@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Heart, Star, Download } from 'lucide-react';
 import './ResourceDetailPage.css';
 
 // Mock data — same records as BrowsePage for consistent navigation.
@@ -19,7 +20,7 @@ const MOCK_RESOURCES = {
     resourceType: 'lecture_notes',
     originalFileName: 'os-lecture-notes.pdf',
     averageRating: 4.5,
-    viewCount: 121,
+    reviewCount: 121,
     uploadedBy: { username: 'timothysisa', role: 'student' },
   },
   '2': {
@@ -30,7 +31,7 @@ const MOCK_RESOURCES = {
     resourceType: 'past_paper',
     originalFileName: 'wt-past-paper-2023.pdf',
     averageRating: 4.8,
-    viewCount: 341,
+    reviewCount: 341,
     uploadedBy: { username: 'alazarkidane', role: 'student' },
   },
   '3': {
@@ -41,7 +42,7 @@ const MOCK_RESOURCES = {
     resourceType: 'study_guide',
     originalFileName: 'data-structures-guide.pdf',
     averageRating: 4.2,
-    viewCount: 88,
+    reviewCount: 88,
     uploadedBy: { username: 'adarshpandit', role: 'student' },
   },
   '4': {
@@ -52,7 +53,7 @@ const MOCK_RESOURCES = {
     resourceType: 'lecture_notes',
     originalFileName: 'db-lecture-notes.pdf',
     averageRating: 3.9,
-    viewCount: 66,
+    reviewCount: 66,
     uploadedBy: { username: 'timothysisa', role: 'student' },
   },
   '5': {
@@ -63,7 +64,7 @@ const MOCK_RESOURCES = {
     resourceType: 'past_paper',
     originalFileName: 'maths-past-paper-2022.pdf',
     averageRating: 4.0,
-    viewCount: 211,
+    reviewCount: 211,
     uploadedBy: { username: 'alazarkidane', role: 'student' },
   },
   '6': {
@@ -74,7 +75,7 @@ const MOCK_RESOURCES = {
     resourceType: 'study_guide',
     originalFileName: 'se-study-guide.pdf',
     averageRating: 4.6,
-    viewCount: 156,
+    reviewCount: 156,
     uploadedBy: { username: 'adarshpandit', role: 'student' },
   },
 };
@@ -117,6 +118,7 @@ function ResourceDetailPage() {
   const [averageRating, setAverageRating] = useState(resource?.averageRating || 0);
   const [commentBody, setCommentBody]   = useState('');
   const [commentError, setCommentError] = useState('');
+  const [isFavourite, setIsFavourite]   = useState(false);
 
   // Unknown resource ID — show a clear error state.
   if (!resource) {
@@ -140,6 +142,11 @@ function ResourceDetailPage() {
     const newAvg = ((averageRating + selectedRating) / 2).toFixed(1);
     setAverageRating(parseFloat(newAvg));
     setRatingMsg(`Rating submitted! New average: ${newAvg}`);
+  };
+
+  const handleFavouriteToggle = () => {
+    if (!user) return navigate('/login');
+    setIsFavourite(!isFavourite);
   };
 
   // Simulates POST /api/resources/:id/comments — replace with real fetch in production.
@@ -180,13 +187,23 @@ function ResourceDetailPage() {
 
       {/* Resource header */}
       <div className="detail-header">
-        <span className="detail-badge">{TYPE_LABELS[resource.resourceType]}</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <span className="detail-badge">{TYPE_LABELS[resource.resourceType]}</span>
+          <button 
+            onClick={handleFavouriteToggle}
+            className="btn-favourite"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+            title={isFavourite ? "Remove from favourites" : "Add to favourites"}
+          >
+            <Heart size={24} fill={isFavourite ? "#ef4444" : "none"} color={isFavourite ? "#ef4444" : "currentColor"} />
+          </button>
+        </div>
         <h1 className="detail-title">{resource.title}</h1>
         <p className="detail-category">{resource.category}</p>
         <p className="detail-meta">
           Uploaded by <strong>{resource.uploadedBy?.username}</strong> ·
-          ★ {averageRating > 0 ? averageRating : 'No ratings'} ·
-          {resource.viewCount} views
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}><Star size={16} fill="#eab308" color="#eab308" /> {averageRating > 0 ? averageRating : 'No ratings'}</span> ·
+          {resource.reviewCount} reviews
         </p>
       </div>
 
@@ -199,8 +216,8 @@ function ResourceDetailPage() {
       {/* Download — maps to GET /api/resources/:id/file in production */}
       <div className="detail-section">
         <p className="download-note">Download available once connected to the backend.</p>
-        <button className="btn-download" disabled>
-          ⬇ {resource.originalFileName}
+        <button className="btn-download" disabled style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Download size={20} /> {resource.originalFileName}
         </button>
       </div>
 
@@ -214,8 +231,9 @@ function ResourceDetailPage() {
               className={`star ${selectedRating >= star ? 'star-active' : ''}`}
               onClick={() => setSelectedRating(star)}
               aria-label={`Rate ${star} star${star > 1 ? 's' : ''}`}
+              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
             >
-              ★
+              <Star size={24} fill={selectedRating >= star ? "currentColor" : "none"} strokeWidth={1.5} />
             </button>
           ))}
         </div>

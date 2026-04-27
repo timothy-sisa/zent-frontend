@@ -16,7 +16,7 @@ const MOCK_RESOURCES = [
     category: 'Computer Science',
     resourceType: 'lecture_notes',
     averageRating: 4.5,
-    viewCount: 120,
+    reviewCount: 120,
     uploadedBy: { username: 'timothysisa' },
   },
   {
@@ -26,7 +26,7 @@ const MOCK_RESOURCES = [
     category: 'Web Technologies',
     resourceType: 'past_paper',
     averageRating: 4.8,
-    viewCount: 340,
+    reviewCount: 340,
     uploadedBy: { username: 'alazarkidane' },
   },
   {
@@ -36,7 +36,7 @@ const MOCK_RESOURCES = [
     category: 'Computer Science',
     resourceType: 'study_guide',
     averageRating: 4.2,
-    viewCount: 87,
+    reviewCount: 87,
     uploadedBy: { username: 'adarshpandit' },
   },
   {
@@ -46,7 +46,7 @@ const MOCK_RESOURCES = [
     category: 'Computer Science',
     resourceType: 'lecture_notes',
     averageRating: 3.9,
-    viewCount: 65,
+    reviewCount: 65,
     uploadedBy: { username: 'timothysisa' },
   },
   {
@@ -56,7 +56,7 @@ const MOCK_RESOURCES = [
     category: 'Mathematics',
     resourceType: 'past_paper',
     averageRating: 4.0,
-    viewCount: 210,
+    reviewCount: 210,
     uploadedBy: { username: 'alazarkidane' },
   },
   {
@@ -66,7 +66,7 @@ const MOCK_RESOURCES = [
     category: 'Software Engineering',
     resourceType: 'study_guide',
     averageRating: 4.6,
-    viewCount: 155,
+    reviewCount: 155,
     uploadedBy: { username: 'adarshpandit' },
   },
 ];
@@ -92,7 +92,6 @@ function BrowsePage() {
     })
     .sort((a, b) => {
       if (sort === 'highest_rated') return b.averageRating - a.averageRating;
-      if (sort === 'most_viewed')   return b.viewCount - a.viewCount;
       return 0; // 'newest' / 'oldest' order is preserved from the array for mock data
     });
 
@@ -136,7 +135,6 @@ function BrowsePage() {
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
             <option value="highest_rated">Highest Rated</option>
-            <option value="most_viewed">Most Viewed</option>
           </select>
         </div>
       </div>

@@ -113,14 +113,14 @@
   background: none;
   border: none;
   font-size: 1.6rem;
-  color: var(--border);
+  color: #3b82f6;
   cursor: pointer;
   transition: color 0.15s, transform 0.15s;
   line-height: 1;
   padding: 0;
 }
 .star:hover,
-.star-active { color: var(--primary); }
+.star-active { color: #eab308; }
 .star:hover { transform: scale(1.15); }
 
 .btn-rate {
