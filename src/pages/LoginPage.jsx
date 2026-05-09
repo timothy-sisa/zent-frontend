@@ -1,67 +1,60 @@
 // src/pages/LoginPage.jsx
-// VIEW 2: Login — validates credentials and simulates session creation.
-// Maps to POST /api/auth/login in production.
-// Author: Alazar Kidane
+// Authors: Timothy Sisa, Alazar Kidane, Adarsh Pandit
+// VIEW 3: Login page — authenticates user via POST /api/auth/login
 
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import './AuthPage.css';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import "./AuthPage.css";
+
+const API = import.meta.env.VITE_API_URL;
 
 function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [formData, setFormData]     = useState({ email: '', password: '' });
-  const [errors, setErrors]         = useState({});
-  const [serverError, setServerError] = useState('');
-  const [loading, setLoading]       = useState(false);
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // Clear the error for a field as soon as the user starts typing.
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: '' });
+    setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  // Client-side validation — mirrors server rules for POST /api/auth/login.
+  // Client-side validation before sending the request.
   const validate = () => {
-    const errs = {};
-    if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-      errs.email = 'Please enter a valid email address.';
-    }
-    if (!formData.password) {
-      errs.password = 'Password is required.';
-    }
-    return errs;
+    const newErrors = {};
+    if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = "Please enter a valid email address.";
+    if (!formData.password) newErrors.password = "Password is required.";
+    return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setServerError('');
-
-    const errs = validate();
-    if (Object.keys(errs).length > 0) {
-      setErrors(errs);
-      return;
-    }
+    setServerError("");
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) { setErrors(validationErrors); return; }
 
     setLoading(true);
-
-    // Simulates POST /api/auth/login — replace with real fetch when backend is ready.
-    setTimeout(() => {
-      if (formData.password === 'wrongpassword') {
-        // Simulate an invalid-credentials response from the API.
-        setServerError('Invalid email or password.');
-        setLoading(false);
-        return;
-      }
-
-      // Derive username from email for the mock session object.
-      const username = formData.email.split('@')[0];
-      login({ username, email: formData.email, role: 'student' });
-      navigate('/resources');
+    try {
+      // Maps to POST /api/auth/login
+      const res = await fetch(`${API}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) { setServerError(data.error || "Login failed."); return; }
+      login(data.user);
+      navigate("/resources");
+    } catch (err) {
+      setServerError("Could not connect to the server. Please try again.");
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   return (
@@ -69,48 +62,25 @@ function LoginPage() {
       <div className="auth-card">
         <h1 className="auth-title">Welcome Back</h1>
         <p className="auth-subtitle">Log in to access your resources and uploads</p>
-
-        {/* Server-level error (e.g. wrong credentials) */}
         {serverError && <p className="error-banner">{serverError}</p>}
-
         <form onSubmit={handleSubmit} noValidate>
-
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
-              className={errors.email ? 'input-error' : ''}
-            />
+            <input id="email" name="email" type="email" placeholder="Enter your email"
+              value={formData.email} onChange={handleChange} className={errors.email ? "input-error" : ""} />
             {errors.email && <span className="field-error">{errors.email}</span>}
           </div>
-
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-              className={errors.password ? 'input-error' : ''}
-            />
+            <input id="password" name="password" type="password" placeholder="Enter your password"
+              value={formData.password} onChange={handleChange} className={errors.password ? "input-error" : ""} />
             {errors.password && <span className="field-error">{errors.password}</span>}
           </div>
-
           <button type="submit" className="btn-submit" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-
-        <p className="auth-switch">
-          Don't have an account? <Link to="/register">Register now</Link>
-        </p>
+        <p className="auth-switch">Don't have an account? <Link to="/register">Register now</Link></p>
       </div>
     </div>
   );
