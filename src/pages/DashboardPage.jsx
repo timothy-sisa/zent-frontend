@@ -107,19 +107,19 @@ export default function DashboardPage() {
     }
   };
 
-  // ── Favourites tab state ─────────────────────────────────────────────────
+  // Favourites tab state 
   const [favourites, setFavourites] = useState([]);
   const [favouritesLoading, setFavouritesLoading] = useState(false);
 
-  // Fetches current user profile including favourites — maps to GET /api/auth/me
+  // Fetches user favourites — maps to GET /api/resources/favourites
   useEffect(() => {
     if (activeTab !== 'favourites') return;
     const fetchFavourites = async () => {
       setFavouritesLoading(true);
       try {
-        const res = await fetch(`${API}/api/auth/me`, { credentials: 'include' });
+        const res = await fetch(`${API}/api/resources/favourites`, { credentials: 'include' });
         const data = await res.json();
-        if (res.ok) setFavourites(data.user.favourites || []);
+        if (res.ok) setFavourites(data.favourites || []);
       } catch (err) {
         console.error('Fetch favourites error:', err);
       } finally {
@@ -139,7 +139,7 @@ export default function DashboardPage() {
     }
   };
 
-  // ── Recently Viewed tab state ────────────────────────────────────────────
+  // ── Recently Viewed tab state 
   const [recent, setRecent] = useState([]);
   const [recentLoading, setRecentLoading] = useState(false);
 
