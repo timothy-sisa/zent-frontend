@@ -16,7 +16,7 @@ export default function DashboardPage() {
   const { user, login } = useAuth();
   const [activeTab, setActiveTab] = useState('profile');
 
-  // ── Profile tab state ────────────────────────────────────────────────────
+  // Profile tab state 
   const [profileForm, setProfileForm] = useState({
     username: user?.username || '',
     email: user?.email || '',
@@ -45,7 +45,7 @@ export default function DashboardPage() {
     }
   };
 
-  // ── Uploads tab state ────────────────────────────────────────────────────
+    // Uploads tab state 
   const [uploads, setUploads] = useState([]);
   const [uploadsLoading, setUploadsLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -97,13 +97,18 @@ export default function DashboardPage() {
     }
   };
 
+  const [deletingId, setDeletingId] = useState(null);
+
   // Deletes a resource — maps to DELETE /api/resources/:id
   const deleteUpload = async (id) => {
+    setDeletingId(id);
     try {
       const res = await fetch(`${API}/api/resources/${id}`, { method: 'DELETE', credentials: 'include' });
       if (res.ok) setUploads(uploads.filter(u => u._id !== id));
     } catch (err) {
       console.error('Delete upload error:', err);
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -129,13 +134,18 @@ export default function DashboardPage() {
     fetchFavourites();
   }, [activeTab]);
 
+  const [removingFavId, setRemovingFavId] = useState(null);
+
   // Toggles favourite off — maps to POST /api/resources/:id/favourite
   const removeFavourite = async (id) => {
+    setRemovingFavId(id);
     try {
       const res = await fetch(`${API}/api/resources/${id}/favourite`, { method: 'POST', credentials: 'include' });
       if (res.ok) setFavourites(favourites.filter(f => f._id !== id));
     } catch (err) {
       console.error('Remove favourite error:', err);
+    } finally {
+      setRemovingFavId(null);
     }
   };
 
@@ -243,8 +253,8 @@ export default function DashboardPage() {
                       <div className="upload-header">
                         <span className="upload-badge">{upload.resourceType?.replace('_', ' ')}</span>
                         <div className="upload-actions">
-                          <button onClick={() => startEdit(upload)} aria-label="Edit"><Pencil size={16} /></button>
-                          <button onClick={() => deleteUpload(upload._id)} className="text-danger" aria-label="Delete"><Trash2 size={16} /></button>
+                          <button onClick={() => startEdit(upload)} aria-label="Edit" disabled={deletingId === upload._id}><Pencil size={16} /></button>
+                          <button onClick={() => deleteUpload(upload._id)} className="text-danger" aria-label="Delete" disabled={deletingId === upload._id}><Trash2 size={16} /></button>
                         </div>
                       </div>
                       <h3 className="upload-title">{upload.title}</h3>
@@ -268,8 +278,8 @@ export default function DashboardPage() {
               {favourites.map(fav => (
                 <div key={fav._id} className="favourite-wrapper">
                   <ResourceCard resource={fav} />
-                  <button className="btn-remove-fav" onClick={() => removeFavourite(fav._id)}>
-                    <X size={14} /> Remove from Favourites
+                  <button className="btn-remove-fav" onClick={() => removeFavourite(fav._id)} disabled={removingFavId === fav._id}>
+                    <X size={14} /> {removingFavId === fav._id ? "Removing..." : "Remove from Favourites"}
                   </button>
                 </div>
               ))}
