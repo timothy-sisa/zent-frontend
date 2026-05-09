@@ -37,7 +37,11 @@ function ResourceCard({ resource }) {
         method: "POST",
         credentials: "include"
       });
-      if (!res.ok) {
+      if (res.ok) {
+        const data = await res.json();
+        // Sync with actual backend state
+        setIsFavourite(data.favourited);
+      } else {
         // Revert on failure
         setIsFavourite(!newFavState);
       }
