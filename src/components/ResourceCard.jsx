@@ -8,6 +8,8 @@ import { useAuth } from '../context/AuthContext';
 import { Heart, Star } from 'lucide-react';
 import './ResourceCard.css';
 
+const API = import.meta.env.VITE_API_URL;
+
 // Maps resourceType enum values to readable labels.
 const TYPE_LABELS = {
   lecture_notes: 'Lecture Notes',
@@ -22,10 +24,27 @@ function ResourceCard({ resource }) {
   const navigate = useNavigate();
   const [isFavourite, setIsFavourite] = useState(false);
 
-  const handleFavouriteToggle = (e) => {
+  const handleFavouriteToggle = async (e) => {
     e.preventDefault();
     if (!user) return navigate('/login');
-    setIsFavourite(!isFavourite);
+    
+    // Optimistic UI toggle
+    const newFavState = !isFavourite;
+    setIsFavourite(newFavState);
+
+    try {
+      const res = await fetch(`${API}/api/resources/${_id}/favourite`, {
+        method: "POST",
+        credentials: "include"
+      });
+      if (!res.ok) {
+        // Revert on failure
+        setIsFavourite(!newFavState);
+      }
+    } catch (err) {
+      console.error("Failed to toggle favourite:", err);
+      setIsFavourite(!newFavState);
+    }
   };
 
   return (
